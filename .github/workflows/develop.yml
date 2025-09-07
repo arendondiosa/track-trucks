@@ -1,0 +1,76 @@
+name: Develop Branch CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  backend-checks:
+    name: Backend Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+        cache: 'pip'
+
+    - name: Install dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+
+    - name: Run code formatting check (black)
+      working-directory: ./backend
+      run: black --check .
+
+    - name: Run code quality checks (ruff)
+      working-directory: ./backend
+      run: ruff check .
+
+    - name: Run import sorting check (isort)
+      working-directory: ./backend
+      run: isort --check-only .
+
+    - name: Run type checking (mypy)
+      working-directory: ./backend
+      run: mypy .
+
+    - name: Run tests with pytest
+      working-directory: ./backend
+      run: pytest
+
+  frontend-checks:
+    name: Frontend Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm ci
+
+    - name: Run ESLint
+      working-directory: ./frontend
+      run: npm run lint
+
+    - name: Check formatting with Prettier
+      working-directory: ./frontend
+      run: npm run format:check
+
+    - name: Build frontend
+      working-directory: ./frontend
+      run: npm run build
