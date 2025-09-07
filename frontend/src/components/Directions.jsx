@@ -10,7 +10,7 @@ const Directions = ({ origin, destination }) => {
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    if (!map) return;
+    if (!map || origin === '' || destination === '') return;
 
     const service = new google.maps.DirectionsService();
 
@@ -45,6 +45,6 @@ const Directions = ({ origin, destination }) => {
       <Marker position={routes[0]?.legs[0]?.end_location} />
     </>
   );
-}
+};
 
-export default Directions
+export default Directions;

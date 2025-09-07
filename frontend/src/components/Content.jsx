@@ -6,28 +6,36 @@ import { APIProvider, Map, useMap, Marker } from '@vis.gl/react-google-maps';
 import Directions from './Directions';
 import { mapStyle } from '../utils/map';
 
-function FitMap() {
-  const map = useMap(); // gives you access to the map instance
+function FitMap({ origin, destination }) {
+  const map = useMap();
 
   useEffect(() => {
-    if (!map) return;
+    if (!map || origin === '' || destination === '') return;
 
     const bounds = new google.maps.LatLngBounds();
+    const geocoder = new google.maps.Geocoder();
 
-    bounds.extend({ lat: 4.60971, lng: -74.08175 });
-    bounds.extend({ lat: 6.25184, lng: -75.56359 });
+    const cities = [origin, destination];
 
-    map.fitBounds(bounds); // auto-zoom/center
-  }, [map]);
+    cities.forEach(city => {
+      geocoder.geocode({ address: city }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          bounds.extend(results[0].geometry.location);
+          map.fitBounds(bounds);
+        } else {
+          console.error('Geocode error:', city, status);
+        }
+      });
+    });
+  }, [map, origin, destination]);
 
-  return null; // no UI, just runs once
+  return null;
 }
-
 
 const ContentLayout = () => {
   const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-  const [originPoint, setOriginPoint] = useState(null);
-  const [destinationPoint, setDestinationPoint] = useState(null);
+  const [originPoint, setOriginPoint] = useState('');
+  const [destinationPoint, setDestinationPoint] = useState('');
 
   return (
     <Layout>
@@ -46,8 +54,8 @@ const ContentLayout = () => {
               disableDefaultUI={true}
               options={mapStyle}
             >
-              {/* <FitMap /> */}
-              <Directions origin="New York" destination="Mexico" />
+              <FitMap origin={originPoint} destination={destinationPoint} />
+              <Directions origin={originPoint} destination={destinationPoint} />
             </Map>
           </APIProvider>
         </div>
