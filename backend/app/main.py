@@ -11,7 +11,12 @@ app = FastAPI(
 
 
 # Root endpoint for health check and easy access
-@app.get("/")
+@app.get(
+    "/",
+    tags=["System"],
+    summary="API Root",
+    description="Welcome endpoint for the Track Trucks API",
+)
 def root():
     return {
         "message": "Welcome to Track Trucks API. Access the API at /api/v1.0/ or view docs at /docs"
@@ -19,7 +24,13 @@ def root():
 
 
 # Health check endpoint
-@app.get("/health")
+@app.get(
+    "/health",
+    tags=["System"],
+    summary="Health Check",
+    description="Check if the API is running correctly",
+    response_description="Returns OK status when the API is healthy",
+)
 def health():
     return {"status": "ok"}
 
