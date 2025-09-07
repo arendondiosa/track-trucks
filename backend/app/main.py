@@ -19,7 +19,10 @@ app = FastAPI(
 )
 def root():
     return {
-        "message": "Welcome to Track Trucks API. Access the API at /api/v1.0/ or view docs at /docs"
+        "message": (
+            "Welcome to Track Trucks API. Access the API at /api/v1.0/ "
+            "or view docs at /docs"
+        )
     }
 
 

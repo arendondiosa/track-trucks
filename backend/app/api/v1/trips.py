@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter
@@ -19,12 +18,12 @@ class TripBase(BaseModel):
         description="Destination city of the trip",
         json_schema_extra={"example": "Los Angeles"},
     )
-    first_detection: datetime = Field(
+    first_detection: Optional[str] = Field(
         ...,
         description="Timestamp of the first detection",
         json_schema_extra={"example": "2023-01-01T12:00:00Z"},
     )
-    last_detection: datetime = Field(
+    last_detection: Optional[str] = Field(
         ...,
         description="Timestamp of the last detection",
         json_schema_extra={"example": "2023-01-02T12:00:00Z"},
@@ -65,12 +64,12 @@ def get_trips():
     return all_trips
 
 
-@router.get("/filter", response_model=list[Trip], summary="Get Filtered Trips")
+@router.get("/filter", response_model=list, summary="Get Filtered Trips")
 def get_filtered_trips(
     source_city: Optional[str] = None,
     destination_city: Optional[str] = None,
-    start_date: Optional[str] = None,
-    end_date: Optional[str] = None,
+    # start_date: Optional[str] = None,
+    # end_date: Optional[str] = None,
 ):
     """
     Get filtered trips based on query parameters
@@ -89,10 +88,10 @@ def get_filtered_trips(
         filters["source_city"] = source_city
     if destination_city:
         filters["destination_city"] = destination_city
-    if start_date:
-        filters["start_date"] = start_date
-    if end_date:
-        filters["end_date"] = end_date
+    # if start_date:
+    #     filters["start_date"] = start_date
+    # if end_date:
+    #     filters["end_date"] = end_date
 
     all_trips = TripsController().get_trips_by_filters(filters=filters)
     return all_trips
