@@ -1,2 +1,9 @@
-fastapi
-uvicorn
+# API Framework
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.6.0
+
+# Development Tools
+ruff>=0.2.0
+black>=24.1.0
+isort>=5.13.0

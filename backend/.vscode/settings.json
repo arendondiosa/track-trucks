@@ -1,0 +1,19 @@
+{
+  "python.formatting.provider": "none",
+  "python.linting.enabled": true,
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
+    }
+  },
+  "python.linting.mypyEnabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.pylintEnabled": false,
+  "ruff.enable": true,
+  "black-formatter.args": ["--config=pyproject.toml"],
+  "isort.args": ["--profile=black"]
+}
