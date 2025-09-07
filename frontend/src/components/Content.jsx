@@ -3,53 +3,31 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
 import { APIProvider, Map, useMap, Marker } from '@vis.gl/react-google-maps';
-import { Polyline } from '../utils/polyline';
+import Directions from './Directions';
+import { mapStyle } from '../utils/map';
 
-function Directions({ origin, destination }) {
-  const map = useMap();
-  const [routes, setRoutes] = useState([]);
+function FitMap() {
+  const map = useMap(); // gives you access to the map instance
 
   useEffect(() => {
     if (!map) return;
 
-    const service = new google.maps.DirectionsService();
+    const bounds = new google.maps.LatLngBounds();
 
-    service.route(
-      {
-        origin,
-        destination,
-        travelMode: google.maps.TravelMode.DRIVING,
-        provideRouteAlternatives: true,
-      },
-      (result, status) => {
-        if (status === 'OK' && result) {
-          console.log('Directions result:', result);
-          setRoutes(result.routes.slice(0, 3)); // take max 3 routes
-        }
-      }
-    );
-  }, [map, origin, destination]);
+    bounds.extend({ lat: 4.60971, lng: -74.08175 });
+    bounds.extend({ lat: 6.25184, lng: -75.56359 });
 
-  return (
-    <>
-      {routes.map((route, i) => (
-        <Polyline
-          key={i}
-          encodedPath={route.overview_polyline}
-          strokeColor={i === 0 ? 'blue' : i === 1 ? 'green' : 'red'}
-          strokeWeight={3}
-        />
-      ))}
+    map.fitBounds(bounds); // auto-zoom/center
+  }, [map]);
 
-      {/* Markers for cities */}
-      <Marker position={routes[0]?.legs[0]?.start_location} />
-      <Marker position={routes[0]?.legs[0]?.end_location} />
-    </>
-  );
+  return null; // no UI, just runs once
 }
+
 
 const ContentLayout = () => {
   const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  const [originPoint, setOriginPoint] = useState(null);
+  const [destinationPoint, setDestinationPoint] = useState(null);
 
   return (
     <Layout>
@@ -66,8 +44,10 @@ const ContentLayout = () => {
               defaultZoom={5}
               gestureHandling={'greedy'}
               disableDefaultUI={true}
+              options={mapStyle}
             >
-              <Directions origin="New York, NY" destination="Washington, DC" />
+              {/* <FitMap /> */}
+              <Directions origin="New York" destination="Mexico" />
             </Map>
           </APIProvider>
         </div>
