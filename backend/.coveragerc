@@ -1,0 +1,20 @@
+[coverage:run]
+source = app
+omit =
+    app/tests/*
+    app/db/*
+    app/env/*
+    app/venv/*
+
+[coverage:report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+    raise ImportError
+
+[coverage:html]
+directory = coverage_html_report
