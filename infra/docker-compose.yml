@@ -1,0 +1,51 @@
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend/app:/app/app
+    environment:
+      - ENV=development
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  backend-prod:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: backend-prod
+    ports:
+      - "8001:8000"
+    environment:
+      - ENV=production
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: frontend
+    ports:
+      - "3000:5173"
+    volumes:
+      - ../frontend/src:/app/src
+      - ../frontend/public:/app/public
+      - ../frontend/package.json:/app/package.json
+      - ../frontend/vite.config.js:/app/vite.config.js
+    environment:
+      - NODE_ENV=development
+
+  frontend-prod:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: prod
+    container_name: frontend-prod
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
