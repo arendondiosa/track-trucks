@@ -39,3 +39,24 @@ class TripsController:
                 ]
 
         return filtered_routes
+
+    def get_cities(self):
+        """
+        Get a list of all unique cities from the trips data
+        """
+        all_trips = TripsManager.load_trips_data()
+        cities = {}
+
+        if "routes" in all_trips:
+            routes = all_trips["routes"]
+
+            for route in routes:
+                origin = route["origin"]
+                destination = route["destination"]
+
+                if origin not in cities:
+                    cities[origin] = []
+
+                cities[origin].append(destination)
+
+        return cities

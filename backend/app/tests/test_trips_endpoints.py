@@ -137,3 +137,47 @@ class TestTripsEndpoints:
         # Verify the response
         assert response.status_code == 200
         assert response.json() == []
+
+    @patch("app.managers.trips.TripsManager.load_trips_data")
+    def test_get_cities(self, mock_load_trips, client):
+        """
+        Test getting all unique cities endpoint
+        """
+        # Set up the mock to return our test data
+        mock_load_trips.return_value = mock_trips_data
+
+        # Make the request to the cities endpoint
+        response = client.get("/api/v1.0/trips/cities")
+
+        # Verify the response
+        assert response.status_code == 200
+        cities = response.json()
+
+        # Verify the structure of the response
+        assert isinstance(cities, dict)
+        assert "New York" in cities
+        assert "San Francisco" in cities
+        assert "Chicago" in cities
+
+        # Verify each origin city has the correct destinations
+        assert "Washington DC" in cities["New York"]
+        assert "Los Angeles" in cities["San Francisco"]
+        assert "Denver" in cities["Chicago"]
+
+        # Verify there are 3 origin cities
+        assert len(cities) == 3
+
+    @patch("app.managers.trips.TripsManager.load_trips_data")
+    def test_get_cities_empty_data(self, mock_load_trips, client):
+        """
+        Test getting cities from empty data
+        """
+        # Set up the mock to return empty data
+        mock_load_trips.return_value = {}
+
+        # Make the request to the cities endpoint
+        response = client.get("/api/v1.0/trips/cities")
+
+        # Verify the response
+        assert response.status_code == 200
+        assert response.json() == {}
