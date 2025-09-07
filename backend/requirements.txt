@@ -7,3 +7,8 @@ pydantic>=2.6.0
 ruff>=0.2.0
 black>=24.1.0
 isort>=5.13.0
+
+# Testing Tools
+pytest>=7.4.0
+pytest-cov>=4.1.0
+httpx>=0.24.1  # Required for FastAPI TestClient

@@ -28,6 +28,8 @@ exclude = '''
   | buck-out
   | build
   | dist
+  | env
+  | venv
 )/
 '''
 
@@ -39,6 +41,7 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
+skip_glob = ["*/env/*", "*/venv/*"]
 
 [tool.ruff]
 # Enable flake8-bugbear (`B`) rules.
@@ -69,3 +72,27 @@ max-complexity = 10
 
 [tool.ruff.isort]
 known-third-party = ["fastapi", "pydantic", "sqlalchemy"]
+
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+fail_under = 80

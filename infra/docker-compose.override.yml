@@ -1,0 +1,17 @@
+services:
+  backend:
+    # Additional development settings
+    volumes:
+      - ../backend:/app
+      - /app/venv/  # Exclude venv directory from volume mounting
+    environment:
+      - DEBUG=true
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  frontend:
+    # Additional development settings
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules/  # Exclude node_modules directory from volume mounting
+    environment:
+      - VITE_API_URL=http://localhost:8000/api

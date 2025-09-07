@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Environment variables
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+.DS_Store

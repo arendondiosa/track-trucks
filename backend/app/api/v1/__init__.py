@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from . import trucks
+from . import trips
 
 # Create the main v1 API router with versioning tag
 router = APIRouter(
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 # Include the other routers
-router.include_router(trucks.router)
+router.include_router(trips.router)
 
 
 # Add a version-specific health check
@@ -23,4 +23,4 @@ def api_status():
 
     Returns version-specific information about the API.
     """
-    return {"version": "1.0", "status": "operational", "endpoints": ["trucks"]}
+    return {"version": "1.0", "status": "operational", "endpoints": ["trucks", "trips"]}
