@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
+  SearchOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Typography } from 'antd';
+import truckLogo from '../assets/truck-logo.svg';
 const { Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -17,15 +15,8 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem('Carrier Search', '1', <SearchOutlined />),
+  getItem('Login', '2', <UserOutlined />),
 ];
 
 const Navbar = () => {
@@ -34,7 +25,28 @@ const Navbar = () => {
   return (
     <>
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <div className="demo-logo-vertical" />
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: collapsed ? 'center' : 'flex-start',
+          padding: collapsed ? '16px 0' : '16px 24px',
+          height: '64px',
+          background: 'rgba(255, 255, 255, 0.1)'
+        }}>
+          <img src={truckLogo} alt="Track Trucks Logo" style={{ height: '28px' }} />
+          {!collapsed && (
+            <Typography.Title
+              level={4}
+              style={{
+                margin: 0,
+                marginLeft: '8px',
+                color: 'white'
+              }}
+            >
+              TrackTrucks
+            </Typography.Title>
+          )}
+        </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
     </>
