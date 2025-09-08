@@ -138,3 +138,42 @@ class TestTripsController:
         # Verify the results
         assert all_result == []
         assert filtered_result == []
+
+    @patch("app.managers.trips.TripsManager.load_trips_data")
+    def test_get_cities(self, mock_load_trips, trips_controller):
+        """
+        Test getting unique cities from trips data
+        """
+        # Set up the mock
+        mock_load_trips.return_value = mock_trips_data
+
+        # Call the controller method
+        result = trips_controller.get_cities()
+
+        # Verify the result has all origin cities as keys
+        assert "New York" in result
+        assert "San Francisco" in result
+        assert "Chicago" in result
+
+        # Verify each origin city has the correct destinations
+        assert "Washington DC" in result["New York"]
+        assert "Los Angeles" in result["San Francisco"]
+        assert "Denver" in result["Chicago"]
+
+        # Verify the structure (each origin maps to a list of destinations)
+        assert len(result) == 3
+        assert isinstance(result["New York"], list)
+
+    @patch("app.managers.trips.TripsManager.load_trips_data")
+    def test_get_cities_empty_data(self, mock_load_trips, trips_controller):
+        """
+        Test getting cities from empty data
+        """
+        # Set up the mock to return empty data
+        mock_load_trips.return_value = {}
+
+        # Call the controller method
+        result = trips_controller.get_cities()
+
+        # Verify the result is an empty dict
+        assert result == {}

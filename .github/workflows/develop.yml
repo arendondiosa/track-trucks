@@ -58,19 +58,29 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '22'
+    - name: Install Yarn
+      run: npm install -g yarn
 
     - name: Install dependencies
       working-directory: ./frontend
-      run: npm install
+      run: yarn install
 
     - name: Run ESLint
       working-directory: ./frontend
-      run: npm run lint
+      run: yarn lint
 
     - name: Check formatting with Prettier
       working-directory: ./frontend
-      run: npm run format:check
+      run: yarn format:check
+
+    - name: Run Jest tests
+      working-directory: ./frontend
+      env:
+        NODE_ENV: test
+        VITE_API_BASE_URL: http://localhost:8000/api/v1.0
+        VITE_GOOGLE_MAPS_API_KEY: test-api-key
+      run: yarn test --coverage
 
     - name: Build frontend
       working-directory: ./frontend
-      run: npm run build
+      run: yarn build
