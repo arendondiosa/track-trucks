@@ -7,6 +7,8 @@ export default defineConfig({
   optimizeDeps: {
     include: ["@vis.gl/react-google-maps"],
   },
-  host: "0.0.0.0",
-  allowedHosts: "all",
+  server: {
+    host: true,
+    allowedHosts: ['ec2-13-59-118-68.us-east-2.compute.amazonaws.com']
+  }
 })
