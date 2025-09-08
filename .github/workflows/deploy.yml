@@ -36,6 +36,8 @@ jobs:
             cd infra
 
             echo "==> Building and running containers"
+            export VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}
+            export VITE_GOOGLE_MAPS_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
             docker compose pull
             docker compose --env-file /home/ubuntu/.env up -d --build backend-prod frontend-prod
 
