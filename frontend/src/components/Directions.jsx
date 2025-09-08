@@ -5,12 +5,12 @@ const { Header, Content, Footer, Sider } = Layout;
 import { useMap, Marker } from '@vis.gl/react-google-maps';
 import { Polyline } from '../utils/polyline';
 
-const Directions = ({ origin, destination }) => {
+const Directions = ({ origin, destination, refresh, setRefresh }) => {
   const map = useMap();
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    if (!map || origin === '' || destination === '') return;
+    if (!map || origin === '' || destination === '' || !refresh) return;
 
     const service = new google.maps.DirectionsService();
 
@@ -27,7 +27,9 @@ const Directions = ({ origin, destination }) => {
         }
       }
     );
-  }, [map, origin, destination]);
+
+    setRefresh(false);
+  }, [map, origin, destination, refresh]);
 
   return (
     <>
