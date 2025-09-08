@@ -28,6 +28,9 @@ jobs:
               git clone https://github.com/arendondiosa/track-trucks.git "$APP_DIR"
             fi
 
+            echo '>>> Stopping and cleaning old containers/images'
+            docker compose down --rmi all --volumes --remove-orphans || true
+
             cd "$APP_DIR"
             git fetch origin main
             git reset --hard origin/main
