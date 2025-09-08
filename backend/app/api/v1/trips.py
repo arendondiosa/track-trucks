@@ -95,3 +95,14 @@ def get_filtered_trips(
 
     all_trips = TripsController().get_trips_by_filters(filters=filters)
     return all_trips
+
+
+@router.get("/cities", response_model=dict, summary="Get All Unique Cities")
+def get_cities():
+    """
+    Get a list of all unique cities from the trips data
+
+    Returns a list of unique cities involved in trips.
+    """
+    cities = TripsController().get_cities()
+    return cities
