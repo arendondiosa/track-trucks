@@ -37,7 +37,7 @@ jobs:
 
             echo "==> Building and running containers"
             docker compose pull
-            docker compose up -d --build
+            docker compose --env-file /home/ubuntu/.env up -d --build
 
             echo "==> Cleaning old images"
             docker image prune -f
