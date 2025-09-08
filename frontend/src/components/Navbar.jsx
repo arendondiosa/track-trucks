@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  SearchOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
 import truckLogo from '../assets/truck-logo.svg';
 const { Sider } = Layout;
@@ -25,14 +22,16 @@ const Navbar = () => {
   return (
     <>
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: collapsed ? 'center' : 'flex-start',
-          padding: collapsed ? '16px 0' : '16px 24px',
-          height: '64px',
-          background: 'rgba(255, 255, 255, 0.1)'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: collapsed ? 'center' : 'flex-start',
+            padding: collapsed ? '16px 0' : '16px 24px',
+            height: '64px',
+            background: 'rgba(255, 255, 255, 0.1)',
+          }}
+        >
           <img src={truckLogo} alt="Track Trucks Logo" style={{ height: '28px' }} />
           {!collapsed && (
             <Typography.Title
@@ -40,7 +39,7 @@ const Navbar = () => {
               style={{
                 margin: 0,
                 marginLeft: '8px',
-                color: 'white'
+                color: 'white',
               }}
             >
               TrackTrucks
