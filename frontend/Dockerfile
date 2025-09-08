@@ -2,7 +2,8 @@
 FROM node:22-alpine AS base
 WORKDIR /app
 COPY package.json ./
-RUN yarn install || npm install
+RUN npm install -g yarn
+RUN yarn install
 COPY . .
 
 # Development image
@@ -12,7 +13,7 @@ CMD ["npm", "run", "dev", "--", "--host"]
 
 # Production build
 FROM base AS builder
-RUN yarn build || npm run build
+RUN yarn build
 
 # Production image
 FROM nginx:alpine AS prod
