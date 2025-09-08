@@ -1,0 +1,43 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to EC2 with Docker Compose
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
+
+          ssh -o StrictHostKeyChecking=no -i github-ec2.pem ${USER}@${HOST} << 'EOF'
+            set -e
+
+            echo "==> Moving to app directory"
+            APP_DIR="/home/${USER}/track-trucks"
+            if [ ! -d "$APP_DIR" ]; then
+              git clone https://github.com/arendondiosa/track-trucks.git "$APP_DIR"
+            fi
+
+            cd "$APP_DIR"
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo "==> Going to infra directory"
+            cd infra
+
+            echo "==> Building and running containers"
+            docker compose pull
+            docker compose up -d --build
+
+            echo "==> Cleaning old images"
+            docker image prune -f
+          EOF
