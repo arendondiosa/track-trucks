@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { forwardRef, useContext, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 
 import { GoogleMapsContext, useMapsLibrary } from '@vis.gl/react-google-maps';
@@ -32,7 +31,7 @@ function usePolyline(props) {
   // update PolylineOptions
   useMemo(() => {
     polyline.setOptions(polylineOptions);
-  }, [polylineOptions]);
+  }, [polylineOptions, polyline]);
 
   const map = useContext(GoogleMapsContext)?.map;
 
@@ -41,7 +40,7 @@ function usePolyline(props) {
     if (!encodedPath || !geometryLibrary) return;
     const path = geometryLibrary.encoding.decodePath(encodedPath);
     polyline.setPath(path);
-  }, [encodedPath, geometryLibrary]);
+  }, [encodedPath, geometryLibrary, polyline]);
 
   // add/remove polyline to map
   useEffect(() => {
@@ -54,7 +53,7 @@ function usePolyline(props) {
     return () => {
       polyline.setMap(null);
     };
-  }, [map]);
+  }, [map, polyline]);
 
   // attach events
   useEffect(() => {
@@ -85,6 +84,6 @@ function usePolyline(props) {
 
 export const Polyline = forwardRef((props, ref) => {
   const polyline = usePolyline(props);
-  useImperativeHandle(ref, () => polyline, []);
+  useImperativeHandle(ref, () => polyline, [polyline]);
   return null;
 });

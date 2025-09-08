@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
 import { useMap, Marker } from '@vis.gl/react-google-maps';
@@ -29,7 +29,7 @@ const Directions = ({ origin, destination, refresh, setRefresh }) => {
     );
 
     setRefresh(false);
-  }, [map, origin, destination, refresh]);
+  }, [map, origin, destination, refresh, setRefresh]);
 
   return (
     <>

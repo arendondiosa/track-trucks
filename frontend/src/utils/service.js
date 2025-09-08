@@ -20,7 +20,7 @@ const handleResponse = async response => {
       const errorData = await response.json();
       errorMessage = errorData.detail || `API Error: ${response.status}`;
     } catch (e) {
-      errorMessage = `API Error: ${response.status} ${response.statusText}`;
+      errorMessage = `API Error: ${response.status} ${response.statusText}. ${e}`;
     }
     throw new Error(errorMessage);
   }

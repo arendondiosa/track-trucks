@@ -23,7 +23,7 @@ export function FitMap({ origin, destination, refresh, setRefresh }) {
       });
     });
     setRefresh(false);
-  }, [map, origin, destination, refresh]);
+  }, [map, origin, destination, refresh, setRefresh]);
 
   return null;
 }
