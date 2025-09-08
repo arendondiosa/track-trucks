@@ -35,8 +35,8 @@ jobs:
             cd infra
 
             echo "==> Building and running containers"
-            docker compose pull
-            docker compose up -d --build
+            docker-compose pull
+            docker-compose up -d --build
 
             echo "==> Cleaning old images"
             docker image prune -f
