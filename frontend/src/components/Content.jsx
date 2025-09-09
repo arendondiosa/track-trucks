@@ -7,7 +7,7 @@ import Directions from './Directions';
 import { mapStyle } from '../utils/map';
 import apiService from '../utils/service';
 import { FitMap } from './FitMap';
-import CardForm from './CardForm';
+import CardForm from './Cards/CardForm';
 
 const ContentLayout = () => {
   const [form] = Form.useForm();

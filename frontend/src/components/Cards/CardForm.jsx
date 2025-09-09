@@ -1,5 +1,6 @@
 import { Form, Button, Card, Select, Avatar, List } from 'antd';
 import { useEffect, useState } from 'react';
+import CardResult from './CardResult';
 
 const CardForm = ({
   form,
@@ -91,29 +92,7 @@ const CardForm = ({
         </Form>
       </Card>
 
-      <Card
-        size="small"
-        style={{
-          borderRadius: 12,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-          marginTop: 13,
-          position: 'relative',
-        }}
-      >
-        <List
-          itemLayout="horizontal"
-          dataSource={carries}
-          renderItem={(item, index) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                title={item.name}
-                description={<p>{item.trucks_per_day} Trucks/day</p>}
-              />
-            </List.Item>
-          )}
-        />
-      </Card>
+      <CardResult carries={carries} />
     </div>
   );
 };
